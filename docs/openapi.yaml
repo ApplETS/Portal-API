@@ -1,0 +1,245 @@
+openapi: 3.0.3
+info:
+  description: This is a simple API to handle **What's New** information for Notre-Dame project and many more. 
+  version: "1.0.0"
+  title: What's new API
+  contact:
+    email: applets@ens.etsmtl.ca
+  license:
+    name: MIT License
+    url: 'https://mit-license.org/'
+tags:
+  - name: admins
+    description: Secured Admin-only calls.
+  - name: users
+    description: Operations available to regular users.
+paths:
+  '/api/v1/auth/regen-token':
+    post:
+      tags:
+        - admins
+      summary: Regenerate the api token for the auth. Disclaimer, using this function may disrupt other application that use this API.
+      operationId: regenAuthAPIToken
+      security:
+        - ApiKeyAuth: []
+      description: |
+        Regenerate the api token for the auth. Disclaimer, using this function may disrupt
+        other application that use this API. Once called, the previous token will expire
+        making this token the **ONLY** useable token for the application.
+        
+        ⚠️ Make sure to note or save the token somewhere safe as it won't appear anymore.⚠️
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                type: string
+                example: ABCDEFG12345
+          description: The newly created token to use with auth header.
+      
+  '/api/v1/projects':
+    get:
+      tags:
+        - users
+      summary: App|ETS project list
+      operationId: fetchProjectsList
+      description: |
+        By passing in the appropriate options, you can fetch the project list of all project.
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project'
+        '400':
+          description: bad input parameter (The version specified could be inexistant)
+    post:
+      tags:
+        - admins
+      security:
+        - ApiKeyAuth: []
+      summary: App|ETS project creation
+      operationId: createProject
+      description: |
+        By passing in the appropriate options, you can fetch the project list of all project.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+        description: Project to add
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project'
+        '400':
+          description: bad input parameter (The version specified could be inexistant)
+  '/api/v1/projects/{project-id}/versions':
+    parameters:
+      - in: path
+        name: project-id
+        description: Id of the current project 
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+        required: true
+    get:
+      tags:
+        - users
+      summary: App|ETS project versions list
+      operationId: fetchProjectVersionsList
+      description: |
+        By passing in the appropriate options, you can fetch the project versions list of all project.
+      parameters:
+        - in: query
+          name: lastVersionFetched
+          description: |
+            The version that need to filter the list of above version. When set, this
+            argument prevents getting all previous version that were supposedly alredy 
+            show to be fetched. Only the lambda betwen two version will be used. 
+            
+            For example, on a version matrix created as such 3.5, 3.6, 3.8 and 3.12, 
+            and having supposedly  already loaded 3.5 and 3.6, by passing 3.6 you will
+            get a list like that:
+            
+              `[3.8, 3.12]`
+            
+            Which will represent the two versions that hold what's new to show AND are 
+            above the threshold of the version you already viewed. If no version is supply, every what's new version for this project are sent out by default.
+          schema:
+            $ref: '#/components/schemas/Version'
+          explode: true
+          example: '4.6.2 | 1.0.0'
+          required: false
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Version'
+        '400':
+          description: bad input parameter (The version specified could be inexistant)
+  '/api/v1/projects/{project-id}/whats-new':
+    parameters:
+      - in: path
+        name: project-id
+        description: Id of the current project 
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+        required: true
+    post:
+      tags:
+        - admins
+      summary: Adds a new what's new entry for a version
+      operationId: createWhatsNewInfo
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - in: query
+          name: version
+          description: |
+            Pass a specific version to fetch. Special keywords can be used to fetch the different version. Such as prod-ios & prod-android to fetch the prod 
+          schema:
+            $ref: '#/components/schemas/Version'
+          explode: true
+          example: '4.6.2 | 1.0.0 | prod-ios | prod-android | beta-ios | beta-android'
+          required: true
+      description: Adds an item to the system
+      responses:
+        '201':
+          description: item created
+        '400':
+          description: 'invalid input, object invalid'
+        '409':
+          description: an existing item already exists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Information'
+        description: Information to add to a specific version
+    get:
+      tags:
+        - users
+      summary: What's new information of the specific project for the specified version.
+      operationId: fetchWhatsNewInfo
+      description: |
+        By passing in the appropriate options, you can fetch the version information you want.
+      parameters:
+        - in: query
+          name: version
+          description: |
+            Pass a specific version to fetch. Special keywords can be used to fetch the different version. Such as prod-ios & prod-android to fetch the version on app store and play store respectively.
+          schema:
+            type: string
+          example: '4.6.2 | 1.0.0 | prod-ios | prod-android | beta-ios | beta-android'
+          required: true
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Information'
+        '400':
+          description: bad input parameter (The version specified could be inexistant)
+    
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+  schemas:
+    Project:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+    Version:
+      properties:
+        version:
+          type: string
+          example: '4.6.2 | 1.0.0 | prod-ios | prod-android | beta-ios | beta-android'
+    Information:
+      type: object
+      required:
+        - locale
+        - releaseDate
+      properties:
+        versionName:
+          type: string
+          example: New component X and Y
+        version:
+          type: string
+          example: '4.6.2 | 1.0.0 | prod-ios | prod-android | beta-ios | beta-android'
+        locale:
+          type: string
+          example: en-CA
+        releaseDate:
+          type: string
+          format: date-time
+          example: '2016-08-29T09:12:33.001Z'
+        message:
+          type: string
+          example: |
+            In this version, we will be able to do X and Y.
+        
