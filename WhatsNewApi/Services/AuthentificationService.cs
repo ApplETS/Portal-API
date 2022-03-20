@@ -32,5 +32,24 @@ namespace WhatsNewApi.Services
                 throw new NotImplementedException(ex.Message);
             }
         }
+
+        public async Task<Models.Entities.User> RefreshAuth(string accessToken, string refreshToken)
+        {
+            try
+            {
+                var authInfo = await _authProvider.RefreshAuthAsync(new FirebaseAuth() { FirebaseToken = accessToken, RefreshToken = refreshToken });
+                return new Models.Entities.User
+                {
+                    Email = authInfo.User.Email,
+                    FirebaseToken = authInfo.FirebaseToken,
+                    RefreshToken = authInfo.RefreshToken
+                };
+            }
+            catch (Exception ex)
+            {
+                // Invalid credentials
+                throw new NotImplementedException(ex.Message);
+            }
+        }
     }
 }

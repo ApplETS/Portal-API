@@ -7,7 +7,8 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
-            services.AddTransient<IAuthentificationService, AuthentificationService>();
+            services.AddSingleton<IAuthentificationService, AuthentificationService>();
+            services.AddSingleton<IFirebaseService, FirebaseService>();
             return services;
         }
     }

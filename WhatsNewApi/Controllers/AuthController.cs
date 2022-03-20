@@ -1,3 +1,6 @@
+using FirebaseAdmin;
+using FirebaseAdmin.Auth;
+using Google.Apis.Auth.OAuth2;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,17 +14,17 @@ namespace WhatsNewApi.Controllers
     [Route("auth")]
     public class AuthController : ControllerBase
     {
-        private readonly ILogger<AuthController> _logger;
         private readonly IAuthentificationService _authService;
+        private readonly IFirebaseService _firebaseService;
 
-        public AuthController(ILogger<AuthController> logger, IAuthentificationService authService)
+        public AuthController(IAuthentificationService authService, IFirebaseService firebaseService)
         {
-            _logger = logger;
             _authService = authService;
+            _firebaseService = firebaseService;
         }
 
         [AllowAnonymous]
-        [HttpPost(Name = "Login")]
+        [HttpPost]
         public async Task<IActionResult> Login([FromBody] UserLoginCrendentialsDTO userCrendentials)
         {
             if(!string.IsNullOrEmpty(userCrendentials.Email) && !string.IsNullOrEmpty(userCrendentials.Password))
@@ -33,10 +36,25 @@ namespace WhatsNewApi.Controllers
             return BadRequest();
         }
 
-        [HttpPost("register", Name = "Register")]
-        public async Task<IActionResult> Register()
+
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] UserCreationDTO userDto)
         {
-            return Ok();
+            if(!string.IsNullOrEmpty(userDto.Email) && !string.IsNullOrEmpty(userDto.Password) && userDto.Password.Equals(userDto.PasswordConfirmation))
+            {
+                var created = await _firebaseService.CreateUser(userDto.Email, userDto.Password, userDto.Role);
+                if(created) return Ok();
+            }
+
+            return BadRequest();
+        }
+
+        [HttpPost("refresh")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Refresh([FromBody] UserDTO userDto)
+        {
+            var user = await _authService.RefreshAuth(userDto.FirebaseToken, userDto.RefreshToken);
+            return Ok(user);
         }
     }
 }
