@@ -36,8 +36,9 @@ namespace WhatsNewApi.Controllers
             return BadRequest();
         }
 
-
+        // Only admins should be able to create accounts for others
         [HttpPost("register")]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Register([FromBody] UserCreationDTO userDto)
         {
             if(!string.IsNullOrEmpty(userDto.Email) && !string.IsNullOrEmpty(userDto.Password) && userDto.Password.Equals(userDto.PasswordConfirmation))
@@ -51,7 +52,7 @@ namespace WhatsNewApi.Controllers
 
         [HttpPost("refresh")]
         [AllowAnonymous]
-        public async Task<IActionResult> Refresh([FromBody] UserDTO userDto)
+        public async Task<IActionResult> RefreshAuth([FromBody] UserDTO userDto)
         {
             var user = await _authService.RefreshAuth(userDto.FirebaseToken, userDto.RefreshToken);
             return Ok(user);
