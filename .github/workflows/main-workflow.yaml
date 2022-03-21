@@ -1,0 +1,41 @@
+name: Main workflow
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - '.gitignore'
+      - '.metadata'
+      - '.github/**'
+      - 'README.md'
+      - 'README.fr.md'
+      - 'android/fastlane/**'
+      - 'ios/fastlane/**'
+  pull_request:
+    paths-ignore:
+      - '.gitignore'
+      - '.metadata'
+      - '.github/**'
+      - 'README.md'
+      - 'README.fr.md'
+      - 'android/fastlane/**'
+      - 'ios/fastlane/**'
+jobs:
+  buildAndTest:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '6.0.x'
+      
+      - name: dotnet build
+        run: |
+          dotnet build .
+          
+      - name: dotnet test
+        run: |
+          dotnet test .
