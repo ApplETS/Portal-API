@@ -1,8 +1,7 @@
-﻿namespace WhatsNewApi.Models.DTOs
+﻿namespace WhatsNewApi.Models.DTOs;
+public class UserDTO
 {
-    public class UserDTO
-    {
-        public string? FirebaseToken { get; set; }
-        public string? RefreshToken { get; set; }
-    }
+    public string? FirebaseToken { get; set; }
+    public string? RefreshToken { get; set; }
 }
+

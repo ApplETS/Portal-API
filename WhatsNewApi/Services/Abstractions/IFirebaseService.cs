@@ -1,7 +1,5 @@
-﻿namespace WhatsNewApi.Services.Abstractions
+﻿namespace WhatsNewApi.Services.Abstractions;
+public interface IFirebaseService
 {
-    public interface IFirebaseService
-    {
-        public Task<bool> CreateUser(string email, string password, string role);
-    }
+    public Task<bool> CreateUser(string email, string password, string role);
 }
