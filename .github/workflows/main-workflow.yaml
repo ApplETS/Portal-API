@@ -34,7 +34,7 @@ jobs:
 
       - name: dotnet build
         run: |
-          dotnet build .
+          dotnet build . /warnaserror
           
       - name: dotnet test
         run: |
