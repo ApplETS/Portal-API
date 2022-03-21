@@ -1,6 +1,4 @@
-﻿using WhatsNewApi.Models.Enums;
-
-namespace WhatsNewApi.Services.Abstractions
+﻿namespace WhatsNewApi.Services.Abstractions
 {
     public interface IFirebaseService
     {

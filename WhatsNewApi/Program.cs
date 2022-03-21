@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using WhatsNewApi.Models.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 

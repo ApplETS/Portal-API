@@ -1,7 +1,6 @@
 ﻿using FirebaseAdmin;
 using FirebaseAdmin.Auth;
 using Google.Apis.Auth.OAuth2;
-using WhatsNewApi.Models.Enums;
 using WhatsNewApi.Services.Abstractions;
 
 namespace WhatsNewApi.Services

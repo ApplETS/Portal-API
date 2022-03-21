@@ -1,6 +1,4 @@
-﻿using WhatsNewApi.Models.Enums;
-
-namespace WhatsNewApi.Models.DTOs
+﻿namespace WhatsNewApi.Models.DTOs
 {
     public class UserCreationDTO
     {
