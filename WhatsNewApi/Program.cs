@@ -40,6 +40,12 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddSettings(builder.Configuration);
 builder.Services.AddServices();
 
+builder.Host.ConfigureLogging(logging =>
+{
+    logging.ClearProviders();
+    logging.AddConsole();
+});
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
     options.Authority = $"https://securetoken.google.com/{builder.Configuration["FirebaseSettings:ProjectId"]}";

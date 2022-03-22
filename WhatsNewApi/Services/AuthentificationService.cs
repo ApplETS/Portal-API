@@ -1,4 +1,6 @@
 ﻿using Firebase.Auth;
+using WhatsNewApi.Extensions;
+using WhatsNewApi.Models.Exceptions;
 using WhatsNewApi.Models.Options;
 using WhatsNewApi.Services.Abstractions;
 
@@ -6,10 +8,12 @@ namespace WhatsNewApi.Services;
 public class AuthentificationService : IAuthentificationService
 {
     private readonly FirebaseAuthProvider _authProvider;
+    private readonly ILogger _logger;
 
-    public AuthentificationService(IFirebaseSettings settings)
+    public AuthentificationService(IFirebaseSettings settings, ILogger<AuthentificationService> logger)
     {
         _authProvider = new FirebaseAuthProvider(new FirebaseConfig(settings.ApiKey));
+        _logger = logger;
     }
 
     public async Task<Models.Entities.User> Authenticate(string email, string password)
@@ -23,12 +27,11 @@ public class AuthentificationService : IAuthentificationService
                 FirebaseToken = authInfo.FirebaseToken,
                 RefreshToken = authInfo.RefreshToken
             };
-                
         }
         catch (Exception ex)
         {
-            // Invalid credentials
-            throw new NotImplementedException(ex.Message);
+            _logger.LogException(ex);
+            throw new AuthException($"Sign in with email and password has failed with the following: {ex.Message}");
         }
     }
 
@@ -46,8 +49,8 @@ public class AuthentificationService : IAuthentificationService
         }
         catch (Exception ex)
         {
-            // Invalid credentials
-            throw new NotImplementedException(ex.Message);
+            _logger.LogException(ex);
+            throw new AuthException($"Refresh auth has failed with the following: {ex.Message}. There might be an issue with the headers sent or the Firebase API Token");
         }
     }
 }

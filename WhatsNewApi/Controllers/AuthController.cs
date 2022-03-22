@@ -1,13 +1,12 @@
-using FirebaseAdmin;
-using FirebaseAdmin.Auth;
-using Google.Apis.Auth.OAuth2;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WhatsNewApi.Models.DTOs;
+using WhatsNewApi.Models.Entities;
 using WhatsNewApi.Services.Abstractions;
 
 namespace WhatsNewApi.Controllers;
+
 [ApiController]
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 [Route("auth")]
@@ -40,20 +39,39 @@ public class AuthController : ControllerBase
     [Authorize(Roles = "Administrator")]
     public async Task<IActionResult> Register([FromBody] UserCreationDTO userDto)
     {
-        if(!string.IsNullOrEmpty(userDto.Email) && !string.IsNullOrEmpty(userDto.Password) && userDto.Password.Equals(userDto.PasswordConfirmation))
+        try
         {
-            var created = await _firebaseService.CreateUser(userDto.Email, userDto.Password, userDto.Role);
-            if(created) return Ok();
-        }
+            if (!string.IsNullOrEmpty(userDto.Email) && !string.IsNullOrEmpty(userDto.Password) && userDto.Password.Equals(userDto.PasswordConfirmation))
+            {
+                await _firebaseService.CreateUser(userDto.Email, userDto.Password, userDto.Role);
+                return Ok();
+            }
 
-        return BadRequest();
+            return BadRequest();
+
+        } catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpPost("refresh")]
     [AllowAnonymous]
     public async Task<IActionResult> RefreshAuth([FromBody] UserDTO userDto)
     {
-        var user = await _authService.RefreshAuth(userDto.FirebaseToken, userDto.RefreshToken);
-        return Ok(user);
+        try
+        {
+            User? user = null;
+            if (!string.IsNullOrEmpty(userDto.FirebaseToken) && !string.IsNullOrEmpty(userDto.RefreshToken))
+            {
+                user = await _authService.RefreshAuth(userDto.FirebaseToken, userDto.RefreshToken);
+            }
+
+            return Ok(user);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 }
