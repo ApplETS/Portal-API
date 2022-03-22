@@ -28,7 +28,7 @@ public class AuthControllerTest
         var result = await authController.Login(user);
         var badRequestResult = Assert.IsType<UnauthorizedResult>(result);
 
-        Assert.Equal(400, badRequestResult.StatusCode);
+        Assert.Equal(401, badRequestResult.StatusCode);
     }
 
     [Fact]
@@ -43,7 +43,7 @@ public class AuthControllerTest
         var result = await authController.Login(user);
         var badRequestResult = Assert.IsType<UnauthorizedResult>(result);
 
-        Assert.Equal(400, badRequestResult.StatusCode);
+        Assert.Equal(401, badRequestResult.StatusCode);
     }
 
     [Fact]
