@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.31919.166
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WhatsNewApi", "WhatsNewApi\WhatsNewApi.csproj", "{F036282F-DD49-4C78-A27C-0FEB5CA180F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test", "test\test.csproj", "{0EF10D6B-E565-481C-A513-7C92D259D6E1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhatsNewUnitTest", "test\WhatsNewUnitTest.csproj", "{0EF10D6B-E565-481C-A513-7C92D259D6E1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
