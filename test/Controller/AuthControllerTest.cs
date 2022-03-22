@@ -26,7 +26,7 @@ public class AuthControllerTest
         };
 
         var result = await authController.Login(user);
-        var badRequestResult = Assert.IsType<BadRequestResult>(result);
+        var badRequestResult = Assert.IsType<UnauthorizedResult>(result);
 
         Assert.Equal(400, badRequestResult.StatusCode);
     }
@@ -41,7 +41,7 @@ public class AuthControllerTest
         };
 
         var result = await authController.Login(user);
-        var badRequestResult = Assert.IsType<BadRequestResult>(result);
+        var badRequestResult = Assert.IsType<UnauthorizedResult>(result);
 
         Assert.Equal(400, badRequestResult.StatusCode);
     }
@@ -72,21 +72,6 @@ public class AuthControllerTest
 
         Assert.Equal(200, okResult.StatusCode);
         Assert.Equal(expectedModel, okResult.Value);
-    }
-
-    [Fact]
-    public async Task RegisterEmailNullTest()
-    {
-        var user = new UserLoginCrendentialsDTO()
-        {
-            Email = null,
-            Password = "pwd"
-        };
-
-        var result = await authController.Login(user);
-        var badRequestResult = Assert.IsType<BadRequestResult>(result);
-
-        Assert.Equal(400, badRequestResult.StatusCode);
     }
 }
 
