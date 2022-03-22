@@ -1,4 +1,6 @@
-﻿using WhatsNewApi.Services;
+﻿using WhatsNewApi.Repos;
+using WhatsNewApi.Repos.Abstractions;
+using WhatsNewApi.Services;
 using WhatsNewApi.Services.Abstractions;
 
 namespace Microsoft.Extensions.DependencyInjection;
@@ -8,6 +10,7 @@ namespace Microsoft.Extensions.DependencyInjection;
         {
             services.AddSingleton<IAuthentificationService, AuthentificationService>();
             services.AddSingleton<IFirebaseService, FirebaseService>();
+            services.AddSingleton<IProjectRepository, ProjectRepository>();
             return services;
         }
     }

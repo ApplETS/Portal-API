@@ -12,6 +12,10 @@
     <Content Remove="Models\Enums\**" />
     <EmbeddedResource Remove="Models\Enums\**" />
     <None Remove="Models\Enums\**" />
+    <None Remove="Google.Cloud.Firestore" />
+    <None Remove="Models\DbModel\" />
+    <None Remove="Repos\" />
+    <None Remove="Repos\Abstractions\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,10 +24,16 @@
 	  <PackageReference Include="FirebaseAdmin" Version="2.2.0" />
 	  <PackageReference Include="FirebaseAuthentication.net" Version="3.7.2" />
 	  <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.3" />
+	  <PackageReference Include="Google.Cloud.Firestore" Version="2.5.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\WhatsNewApiModels\WhatsNewApiModels.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\FirestoreModels\" />
+    <Folder Include="Repos\" />
+    <Folder Include="Repos\Abstractions\" />
+  </ItemGroup>
 </Project>
