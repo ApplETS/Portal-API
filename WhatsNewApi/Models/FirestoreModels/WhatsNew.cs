@@ -9,5 +9,5 @@ public class WhatsNew
     [FirestoreProperty]
     public string? Version { get; set; }
     [FirestoreProperty]
-    public IEnumerable<WhatsNewPage>? Pages { get; set; }
+    public List<WhatsNewPage>? Pages { get; set; }
 }

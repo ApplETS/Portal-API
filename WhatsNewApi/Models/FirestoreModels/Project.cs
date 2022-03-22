@@ -11,5 +11,5 @@ public class Project
     [FirestoreProperty]
     public string? CurrentVersion { get; set; }
     [FirestoreProperty]
-    public IEnumerable<WhatsNew> WhatsNews { get; set; } = new List<WhatsNew>();
+    public List<WhatsNew> WhatsNews { get; set; } = new List<WhatsNew>();
 }

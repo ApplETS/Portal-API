@@ -9,4 +9,5 @@ public interface IProjectRepository
     public Task Delete(string id);
     public Task<IEnumerable<Project>> GetAll();
     public Task<Project> Get(string id);
+    public Task AddWhatsNew(string id, string version, IEnumerable<WhatsNewPage> pages);
 }

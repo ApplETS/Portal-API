@@ -97,4 +97,32 @@ public class ProjectRepository : IProjectRepository
             throw new NotImplementedException($"Creating a user has failed with the following: {ex.Message}");
         }
     }
+
+    public async Task AddWhatsNew(string id, string version, IEnumerable<WhatsNewPage> pages)
+    {
+        try
+        {
+            var document = await GetProjectDocument(id);
+            if (document != null)
+            {
+                var project = document.ConvertTo<Project>();
+                var whatsnew = new WhatsNew
+                {
+                    Version = version,
+                    Pages = pages.ToList()
+                };
+                project.WhatsNews.Add(whatsnew);
+                await document.Reference.SetAsync(project);
+            }
+            else
+            {
+                throw new Exception($"Creating a user has failed with the following: Id({id}) doesn't exist");
+            }
+
+        }
+        catch(Exception ex)
+        {
+            throw ex;
+        }
+    }
 }

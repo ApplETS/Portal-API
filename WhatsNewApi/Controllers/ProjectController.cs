@@ -8,6 +8,7 @@ namespace WhatsNewApi.Controllers;
 
 [ApiController]
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+[Authorize(Roles = "Administrator")]
 [Route("api/project")]
 public class ProjectController : ControllerBase
 {
@@ -19,7 +20,6 @@ public class ProjectController : ControllerBase
 
 
     [HttpPost]
-    [Authorize(Roles = "Administrator")]
     public async Task<IActionResult> CreateProject([FromBody] ProjectCreationDTO dto)
     {
         try
@@ -35,7 +35,6 @@ public class ProjectController : ControllerBase
 
 
     [HttpPut("update")]
-    [AllowAnonymous]
     public async Task<IActionResult> UpdateProject([FromBody] ProjectUpdateDTO dto)
     {
         try
@@ -51,7 +50,6 @@ public class ProjectController : ControllerBase
 
 
     [HttpDelete("{projectId}")]
-    [Authorize(Roles = "Administrator")]
     public async Task<IActionResult> DeleteProject(string projectId)
     {
         try
@@ -66,7 +64,6 @@ public class ProjectController : ControllerBase
     }
 
     [HttpGet("{projectId}")]
-    [Authorize(Roles = "Administrator")]
     public async Task<IActionResult> GetProject(string projectId)
     {
         try
@@ -81,7 +78,6 @@ public class ProjectController : ControllerBase
     }
 
     [HttpGet]
-    [Authorize(Roles = "Administrator")]
     public async Task<IActionResult> GetAllProjects()
     {
         try
