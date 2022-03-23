@@ -1,4 +1,6 @@
 ﻿using Google.Cloud.Firestore;
+using WhatsNewApi.Extensions;
+using WhatsNewApi.Models.Exceptions;
 using WhatsNewApi.Models.FirestoreModels;
 using WhatsNewApi.Models.Options;
 using WhatsNewApi.Repos.Abstractions;
@@ -7,10 +9,13 @@ namespace WhatsNewApi.Repos;
 public class ProjectRepository : IProjectRepository
 {
 	private readonly FirestoreDb _db;
-	public ProjectRepository(IFirebaseSettings settings)
+    private readonly ILogger<ProjectRepository> _logger;
+
+    public ProjectRepository(ILogger<ProjectRepository> logger, IFirebaseSettings settings)
 	{
 		_db = FirestoreDb.Create(settings.ProjectId);
-	}
+        _logger = logger;
+    }
 
     public async Task Create(string projectName, string projectVersion)
     {
@@ -21,9 +26,9 @@ public class ProjectRepository : IProjectRepository
         }
         catch (Exception ex)
         {
-            throw new Exception($"Creating a project has failed with the following: {ex.Message}");
+            _logger.LogException(ex);
+            throw new FirebaseException($"Creating a project has failed with the following: {ex.Message}");
         }
-		
     }
 
 	public async Task Delete(string id)
@@ -32,11 +37,12 @@ public class ProjectRepository : IProjectRepository
         {
             DocumentSnapshot? document = await GetProjectDocument(id);
             if(document != null) await document.Reference.DeleteAsync();
-            else throw new Exception($"Getting project with id {id} has failed");
+            else throw new FirebaseException($"Getting project with id {id} has failed");
         }
         catch (Exception ex)
         {
-            throw new Exception($"Deleting a project has failed with the following: {ex.Message}");
+            _logger.LogException(ex);
+            throw new FirebaseException($"Deleting a project has failed with the following: {ex.Message}");
         }
     }
 
@@ -46,11 +52,12 @@ public class ProjectRepository : IProjectRepository
         {
             DocumentSnapshot? document = await GetProjectDocument(id);
             if (document != null) return document.ConvertTo<Project>();
-            else throw new Exception($"Getting project with id {id} has failed");
+            else throw new FirebaseException($"Getting project with id {id} has failed");
         }
         catch (Exception ex)
         {
-            throw new Exception($"Getting project with id {id} has failed with the following: {ex.Message}");
+            _logger.LogException(ex);
+            throw new FirebaseException($"Getting project with id {id} has failed with the following: {ex.Message}");
         }
     }
 
@@ -71,7 +78,8 @@ public class ProjectRepository : IProjectRepository
         }
         catch (Exception ex)
         {
-            throw new Exception($"Getting all projects has failed with the following: {ex.Message}");
+            _logger.LogException(ex);
+            throw new FirebaseException($"Getting all projects has failed with the following: {ex.Message}");
         }
     }
 
@@ -88,13 +96,14 @@ public class ProjectRepository : IProjectRepository
             }
             else
             {
-                throw new Exception($"Creating a user has failed with the following: Id({id}) doesn't exist");
+                throw new FirebaseException($"Creating a user has failed with the following: Id({id}) doesn't exist");
             }
             
         }
         catch (Exception ex)
         {
-            throw new NotImplementedException($"Creating a user has failed with the following: {ex.Message}");
+            _logger.LogException(ex);
+            throw new FirebaseException($"Creating a user has failed with the following: {ex.Message}");
         }
     }
 
@@ -116,13 +125,26 @@ public class ProjectRepository : IProjectRepository
             }
             else
             {
-                throw new Exception($"Creating a user has failed with the following: Id({id}) doesn't exist");
+                throw new FirebaseException($"Creating a WhatsNew has failed with the following: Project with Id({id}) doesn't exist");
             }
 
         }
         catch(Exception ex)
         {
-            throw ex;
+            _logger.LogException(ex);
+            throw new FirebaseException($"Creating a user has failed with the following: Id({id}) doesn't exist");
         }
+    }
+
+    public async Task<WhatsNew> GetWhatsNew(string id, string version)
+    {
+        var document = await GetProjectDocument(id);
+        if (document != null)
+        {
+            var project = document.ConvertTo<Project>();
+            var whatsNew = project.WhatsNews.Where(wn => wn.Version.Equals(version)).First();
+            if (whatsNew != null) return whatsNew;
+        }
+        throw new FirebaseException("Fetching a WhatsNew has failed with the following: Project with Id({id}) doesn't exist");
     }
 }
