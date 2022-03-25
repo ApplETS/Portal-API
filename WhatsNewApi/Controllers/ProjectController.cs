@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WhatsNewApi.Models.DTOs;
-using WhatsNewApi.Repos.Abstractions;
+using WhatsNewApi.Services.Abstractions;
 
 namespace WhatsNewApi.Controllers;
 
@@ -12,10 +12,11 @@ namespace WhatsNewApi.Controllers;
 [Route("api/project")]
 public class ProjectController : ControllerBase
 {
-    private readonly IProjectRepository _projectRepo;
-    public ProjectController(IProjectRepository firestoreService)
+    private readonly IProjectService _projectService;
+
+    public ProjectController(IProjectService projectService)
     {
-        _projectRepo = firestoreService;
+        _projectService = projectService;
     }
 
 
@@ -24,8 +25,13 @@ public class ProjectController : ControllerBase
     {
         try
         {
-            await _projectRepo.Create(dto.Name, dto.CurrentVersion);
-            return Ok();
+            if(!string.IsNullOrEmpty(dto.Name) && !string.IsNullOrEmpty(dto.CurrentVersion))
+            {
+                await _projectService.CreateProject(dto.Name, dto.CurrentVersion);
+                return Ok();
+            }
+
+            return BadRequest();
         }
         catch (Exception ex)
         {
@@ -39,8 +45,13 @@ public class ProjectController : ControllerBase
     {
         try
         {
-            await _projectRepo.UpdateVersion(dto.Id, dto.CurrentVersion);
-            return Ok();
+            if (!string.IsNullOrEmpty(dto.Id) && !string.IsNullOrEmpty(dto.CurrentVersion))
+            {
+                await _projectService.UpdateVersion(dto.Id, dto.CurrentVersion);
+                return Ok();
+            }
+
+            return BadRequest();
         }
         catch (Exception ex)
         {
@@ -54,7 +65,7 @@ public class ProjectController : ControllerBase
     {
         try
         {
-            await _projectRepo.Delete(projectId);
+            await _projectService.DeleteProject(projectId);
             return Ok();
         }
         catch(Exception ex)
@@ -68,7 +79,7 @@ public class ProjectController : ControllerBase
     {
         try
         {
-            var project = await _projectRepo.Get(projectId);
+            var project = await _projectService.GetProject(projectId);
             return Ok(project);
         }
         catch (Exception ex)
@@ -82,7 +93,7 @@ public class ProjectController : ControllerBase
     {
         try
         {
-            var projects = await _projectRepo.GetAll();
+            var projects = await _projectService.GetProjects();
             return Ok(projects);
         }
         catch (Exception ex)

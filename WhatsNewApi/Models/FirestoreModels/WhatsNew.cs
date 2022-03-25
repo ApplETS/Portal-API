@@ -7,7 +7,7 @@ namespace WhatsNewApi.Models.FirestoreModels;
 public class WhatsNew
 {
     [FirestoreProperty]
-    public string? Version { get; set; }
+    public string Version { get; set; } = string.Empty;
     [FirestoreProperty]
     public List<WhatsNewPage>? Pages { get; set; }
 }

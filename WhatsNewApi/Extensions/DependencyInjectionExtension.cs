@@ -8,8 +8,12 @@ namespace Microsoft.Extensions.DependencyInjection;
     {
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
+            // Services
             services.AddSingleton<IAuthentificationService, AuthentificationService>();
             services.AddSingleton<IFirebaseService, FirebaseService>();
+            services.AddSingleton<IProjectService, ProjectService>();
+
+            // Repository
             services.AddSingleton<IProjectRepository, ProjectRepository>();
             return services;
         }

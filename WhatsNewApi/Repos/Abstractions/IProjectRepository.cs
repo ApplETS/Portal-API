@@ -4,11 +4,9 @@ namespace WhatsNewApi.Repos.Abstractions;
 
 public interface IProjectRepository
 {
-	public Task Create(string projectName, string projectVersion);
-    public Task UpdateVersion(string id, string version);
+	public Task Create(Project project);
+    public Task Update(Project project);
     public Task Delete(string id);
     public Task<IEnumerable<Project>> GetAll();
     public Task<Project> Get(string id);
-    public Task AddWhatsNew(string id, string version, IEnumerable<WhatsNewPage> pages);
-    public Task<WhatsNew> GetWhatsNew(string id, string version);
 }
