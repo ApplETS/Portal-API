@@ -8,8 +8,8 @@ namespace WhatsNewApi.Controllers;
 
 [ApiController]
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-[Authorize(Roles = "Administrator")]
 [Route("api/project")]
+[Authorize(Roles = "Administrator")]
 public class ProjectController : ControllerBase
 {
     private readonly IProjectService _projectService;
@@ -18,7 +18,6 @@ public class ProjectController : ControllerBase
     {
         _projectService = projectService;
     }
-
 
     [HttpPost]
     public async Task<IActionResult> CreateProject([FromBody] ProjectCreationDTO dto)
@@ -40,14 +39,14 @@ public class ProjectController : ControllerBase
     }
 
 
-    [HttpPut("update")]
-    public async Task<IActionResult> UpdateProject([FromBody] ProjectUpdateDTO dto)
+    [HttpPut("{projectId}")]
+    public async Task<IActionResult> UpdateProject(string projectId, [FromBody] ProjectUpdateDTO dto)
     {
         try
         {
-            if (!string.IsNullOrEmpty(dto.Id) && !string.IsNullOrEmpty(dto.CurrentVersion))
+            if (!string.IsNullOrEmpty(dto.CurrentVersion))
             {
-                await _projectService.UpdateVersion(dto.Id, dto.CurrentVersion);
+                await _projectService.UpdateVersion(projectId, dto.CurrentVersion);
                 return Ok();
             }
 

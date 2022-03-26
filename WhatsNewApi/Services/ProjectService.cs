@@ -129,8 +129,43 @@ public class ProjectService : IProjectService
         catch (Exception ex)
         {
             _logger.LogException(ex);
-            throw new FirebaseException("Fetching a WhatsNew has failed with" +
-                " the following: Project with Id({id}) doesn't exist");
+            throw new FirebaseException($"Fetching a WhatsNew has failed with" +
+                $" the following: {ex.Message}");
+        }
+    }
+
+    public async Task UpdateWhatsNew(string id, string version, WhatsNew wn)
+    {
+        try
+        {
+            var project = await _repo.Get(id);
+            var indexToDelete = project.WhatsNews.FindIndex(wn => wn.Version.Equals(version));
+            project.WhatsNews.RemoveAt(indexToDelete);
+            project.WhatsNews.Add(wn);
+            await _repo.Update(project);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogException(ex);
+            throw new FirebaseException($"Updating a WhatsNew has failed with" +
+                $" the following: {ex.Message}");
+        }
+    }
+
+    public async Task DeleteWhatsNew(string id, string version)
+    {
+        try
+        {
+            var project = await _repo.Get(id);
+            var indexToDelete = project.WhatsNews.FindIndex(wn => wn.Version.Equals(version));
+            project.WhatsNews.RemoveAt(indexToDelete);
+            await _repo.Update(project);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogException(ex);
+            throw new FirebaseException($"Deleting a Whats New failed with the" +
+                $" following: {ex.Message}");
         }
     }
 }
