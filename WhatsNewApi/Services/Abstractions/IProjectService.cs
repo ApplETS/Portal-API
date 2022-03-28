@@ -9,9 +9,5 @@ namespace WhatsNewApi.Services.Abstractions
         public Task DeleteProject(string id);
         public Task<IEnumerable<Project>> GetProjects();
         public Task<Project> GetProject(string id);
-        public Task AddWhatsNew(string id, string version, IEnumerable<WhatsNewPage> pages);
-        public Task<WhatsNew> GetWhatsNew(string id, string version);
-        public Task UpdateWhatsNew(string id, string version, WhatsNew whatsNew);
-        public Task DeleteWhatsNew(string id, string version);
     }
 }

@@ -8,9 +8,9 @@ namespace WhatsNewApi.Services;
 public class ProjectService : IProjectService
 {
     private readonly ILogger<ProjectService> _logger;
-    private readonly IProjectRepository _repo;
+    private readonly IFirestoreRepository<Project> _repo;
 
-    public ProjectService(ILogger<ProjectService> logger, IProjectRepository repo)
+    public ProjectService(ILogger<ProjectService> logger, IFirestoreRepository<Project> repo)
     {
         _logger = logger;
         _repo = repo;
@@ -83,89 +83,13 @@ public class ProjectService : IProjectService
         {
             var project = await _repo.Get(id);
             project.CurrentVersion = version;
-            await _repo.Update(project);
+            await _repo.Update(id, project);
         }
         catch (Exception ex)
         {
             _logger.LogException(ex);
             throw new FirebaseException($"Adding a whats new to project id " +
                 $"{id} has failed with the following: {ex.Message}");
-        }
-    }
-
-    public async Task AddWhatsNew(string id, string version, IEnumerable<WhatsNewPage> pages)
-    {
-        try
-        {
-            var project = await _repo.Get(id);
-            var whatsnew = new WhatsNew
-            {
-                Version = version,
-                Pages = pages.ToList()
-            };
-            project.WhatsNews.Add(whatsnew);
-            await _repo.Update(project);
-
-        }
-        catch (Exception ex)
-        {
-            _logger.LogException(ex);
-            throw new FirebaseException($"Adding a whats new to project id" +
-                $" {id} has failed with the following: {ex.Message}");
-        }
-    }
-
-    public async Task<WhatsNew> GetWhatsNew(string id, string version)
-    {
-        try
-        {
-            var project = await _repo.Get(id);
-            var whatsNew = project.WhatsNews.First(wn => wn.Version.Equals(version));
-            if (whatsNew != null)
-                return whatsNew;
-            throw new ArgumentException($"Project with id: {id} has no " +
-                $"version {version}");
-        }
-        catch (Exception ex)
-        {
-            _logger.LogException(ex);
-            throw new FirebaseException($"Fetching a WhatsNew has failed with" +
-                $" the following: {ex.Message}");
-        }
-    }
-
-    public async Task UpdateWhatsNew(string id, string version, WhatsNew wn)
-    {
-        try
-        {
-            var project = await _repo.Get(id);
-            var indexToDelete = project.WhatsNews.FindIndex(wn => wn.Version.Equals(version));
-            project.WhatsNews.RemoveAt(indexToDelete);
-            project.WhatsNews.Add(wn);
-            await _repo.Update(project);
-        }
-        catch(Exception ex)
-        {
-            _logger.LogException(ex);
-            throw new FirebaseException($"Updating a WhatsNew has failed with" +
-                $" the following: {ex.Message}");
-        }
-    }
-
-    public async Task DeleteWhatsNew(string id, string version)
-    {
-        try
-        {
-            var project = await _repo.Get(id);
-            var indexToDelete = project.WhatsNews.FindIndex(wn => wn.Version.Equals(version));
-            project.WhatsNews.RemoveAt(indexToDelete);
-            await _repo.Update(project);
-        }
-        catch(Exception ex)
-        {
-            _logger.LogException(ex);
-            throw new FirebaseException($"Deleting a Whats New failed with the" +
-                $" following: {ex.Message}");
         }
     }
 }

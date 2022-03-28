@@ -9,6 +9,7 @@ namespace WhatsNewApi.Controllers;
 [ApiController]
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 [Route("api/project")]
+[AllowAnonymous]
 [Authorize(Roles = "Administrator")]
 public class ProjectController : ControllerBase
 {
@@ -17,6 +18,34 @@ public class ProjectController : ControllerBase
     public ProjectController(IProjectService projectService)
     {
         _projectService = projectService;
+    }
+
+    [HttpGet("{projectId}")]
+    public async Task<IActionResult> GetProject(string projectId)
+    {
+        try
+        {
+            var project = await _projectService.GetProject(projectId);
+            return Ok(project);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAllProjects()
+    {
+        try
+        {
+            var projects = await _projectService.GetProjects();
+            return Ok(projects);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpPost]
@@ -68,34 +97,6 @@ public class ProjectController : ControllerBase
             return Ok();
         }
         catch(Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
-    }
-
-    [HttpGet("{projectId}")]
-    public async Task<IActionResult> GetProject(string projectId)
-    {
-        try
-        {
-            var project = await _projectService.GetProject(projectId);
-            return Ok(project);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
-    }
-
-    [HttpGet]
-    public async Task<IActionResult> GetAllProjects()
-    {
-        try
-        {
-            var projects = await _projectService.GetProjects();
-            return Ok(projects);
-        }
-        catch (Exception ex)
         {
             return BadRequest(ex.Message);
         }

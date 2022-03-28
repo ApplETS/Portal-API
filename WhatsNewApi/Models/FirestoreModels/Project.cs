@@ -10,6 +10,4 @@ public class Project
     public string? Name { get; set; }
     [FirestoreProperty]
     public string? CurrentVersion { get; set; }
-    [FirestoreProperty]
-    public List<WhatsNew> WhatsNews { get; set; } = new List<WhatsNew>();
 }

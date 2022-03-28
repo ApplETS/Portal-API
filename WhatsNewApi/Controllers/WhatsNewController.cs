@@ -10,26 +10,41 @@ namespace WhatsNewApi.Controllers;
 [ApiController]
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 [Authorize(Roles = "Administrator")]
+[AllowAnonymous]
 [Route("api/projects/{projectId}/whatsnew")]
 public class WhatsNewController : ControllerBase
 {
-    private readonly IProjectService _projectService;
+    private readonly IWhatsNewService _whatsnewService;
 
-    public WhatsNewController(IProjectService projectService)
+    public WhatsNewController(IWhatsNewService whatsnewService)
     {
-        _projectService = projectService;
+        _whatsnewService = whatsnewService;
     }
 
     [AllowAnonymous]
     [HttpGet("{version}")]
-    public async Task<IActionResult> GetWhatsNew(string projectId, string version)
+    public async Task<IActionResult> GetWhatsNewByVersion(string projectId, string version)
     {
         try
         {
-            var whatsNew = await _projectService.GetWhatsNew(projectId, version);
+            var whatsNew = await _whatsnewService.GetWhatsNew(projectId, version);
             return Ok(whatsNew);
         }
         catch(Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAllWhatsNews(string projectId)
+    {
+        try
+        {
+            var whatsNews = await _whatsnewService.GetAllWhatsNews(projectId);
+            return Ok(whatsNews);
+        }
+        catch (Exception ex)
         {
             return BadRequest(ex.Message);
         }
@@ -42,7 +57,7 @@ public class WhatsNewController : ControllerBase
         {
             if(!string.IsNullOrEmpty(dto.Version) && dto.Pages != null && dto.Pages.Any())
             {
-                await _projectService.AddWhatsNew(projectId, dto.Version, dto.Pages.Select(page => new WhatsNewPage
+                await _whatsnewService.CreateWhatsNew(projectId, dto.Version, dto.Pages.Select(page => new WhatsNewPage
                 {
                     Title = page.Title,
                     Description = page.Description,
@@ -60,8 +75,8 @@ public class WhatsNewController : ControllerBase
         }
     }
 
-    [HttpPut("{version}")]
-    public async Task<IActionResult> UpdateWhatsNew(string projectId, string version, [FromBody] WhatsNewCreationDTO dto)
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateWhatsNew(string projectId, string id, [FromBody] WhatsNewCreationDTO dto)
     {
         try
         {
@@ -75,8 +90,8 @@ public class WhatsNewController : ControllerBase
                     Color = page.Color
                 });
 
-                await _projectService.UpdateWhatsNew(projectId, version,
-                    new WhatsNew { Version = dto.Version, Pages = pages.ToList()});
+                await _whatsnewService.UpdateWhatsNew(id,
+                    new WhatsNew { Version = dto.Version, Pages = pages.ToList(), ProjectId = projectId });
                 return Ok();
             }
 
@@ -88,12 +103,12 @@ public class WhatsNewController : ControllerBase
         }
     }
 
-    [HttpDelete("{version}")]
-    public async Task<IActionResult> DeleteWhatsNew(string projectId, string version)
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteWhatsNew(string id)
     {
         try
         {
-            await _projectService.DeleteWhatsNew(projectId, version);
+            await _whatsnewService.DeleteWhatsNew(id);
             return Ok();
         }
         catch (Exception ex)
@@ -102,5 +117,3 @@ public class WhatsNewController : ControllerBase
         }
     }
 }
-
-
