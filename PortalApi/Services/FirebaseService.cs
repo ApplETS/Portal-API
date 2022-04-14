@@ -15,7 +15,7 @@ public class FirebaseService : IFirebaseService
     {
         FirebaseApp.Create(new AppOptions()
         {
-            Credential = GoogleCredential.GetApplicationDefault(),
+            Credential = GoogleCredential.FromFile(Path.Combine("local", "adminsdk.json")),
         });
         _client = FirebaseAuth.DefaultInstance;
         _logger = logger;

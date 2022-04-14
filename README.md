@@ -1,8 +1,7 @@
-# whats-new-api
-An API dedicated to the what's new feature
+# Portal API
+An API dedicated to the portal.
 
-
-# Setup Firebase
+# Setup
 
 Setup nécessaire au fonctionnement du Firebase Admin SDK (surement à ajouter au Readme):
 1. Télécharger le fichier json des secrets dans l'app Firebase. Paramètre du projet -> Compte de service -> Générer une nouvelle clé privée.

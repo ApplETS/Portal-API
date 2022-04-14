@@ -42,8 +42,10 @@ namespace WhatsNewApi.Services
                 var whatsNews = await _repo.GetAll();
                 var whatsNew = whatsNews.Where(wn =>
                     wn.ProjectId == projectId && wn.Version == version).First();
+
                 if (whatsNew != null)
                     return whatsNew;
+
                 throw new ArgumentException($"Project with id: {projectId} has no " +
                     $"version {version}");
             }
