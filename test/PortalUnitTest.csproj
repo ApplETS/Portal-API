@@ -22,11 +22,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WhatsNewApi\WhatsNewApi.csproj" />
+    <Folder Include="Mock\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Mock\" />
+    <ProjectReference Include="..\PortalApi\PortalApi.csproj" />
   </ItemGroup>
 
 </Project>

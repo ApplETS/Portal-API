@@ -1,42 +1,85 @@
-# whats-new-api
-An API dedicated to the what's new feature
+# Portal API
+An API dedicated to the portal API.
 
+## Setup for DEV :sailboat: or PROD :rocket:
 
-# Setup Firebase
+- To access some features you will need the Firebase admin sdk, these files are encrypted. To decrypt them you will have to do two simple steps:
 
-Setup nécessaire au fonctionnement du Firebase Admin SDK (surement à ajouter au Readme):
-1. Télécharger le fichier json des secrets dans l'app Firebase. Paramètre du projet -> Compte de service -> Générer une nouvelle clé privée.
-2. Placer le fichier a un endroit sécuritaire et créer une variable d'environnement GOOGLE_APPLICATION_CREDENTIALS pointant vers l'emplacement du fichier
+You need to ask an admin user to provide the dev password for encrypted files saved in the pasword manager, then run:
 
-Pour Linux/Mac:
-export GOOGLE_APPLICATION_CREDENTIALS="/home/user/Downloads/service-account-file.json"
+```sh
+# Run this for dev environment
+export ENCRYPTED_FIREBASE_DEV_PASSWORD="ABCDE12345";
+# Or run this for prod environment
+export ENCRYPTED_FIREBASE_PROD_PASSWORD="ABCDE12345";
 
-Pour Windows(Powershell):
-$env:GOOGLE_APPLICATION_CREDENTIALS="C:\Users\username\Downloads\service-account-file.json"
-
-Référence: https://firebase.google.com/docs/admin/setup
-
-Setup pour le fonctionnement du FirebaseService
-Afin de protéger les variables sensibles (apikey, secrets, etc...), .NET possède un Secret Manager. Voici comme le setup:
-Référence: https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-6.0&tabs=windows
-
-1. Créer un fichier json avec le format suivant:
+# Then run:
+scripts/decrypt.sh
 ```
-{
-"FirebaseSettings": {
-    "ProjectId": "",
-    "ApiKey": ""
-  }
-}
-```
-Et enregistrer le sous le nom secrets.json
 
-2. Aller chercher le valeur du tag `UserSecretsId` dans le .csproj du projet. Si la valeur est manquante exécuter la commande suivante: `dotnet user-secrets init`.
 
-3. Aller placer le fichier secrets.json dans un des emplacements suivants selon le os:
+## Setup for local :building_construction:
+There is two way to setup a local environment project.
 
-Windows:
-%APPDATA%\Microsoft\UserSecrets\<user_secrets_id>\secrets.json
+### Remote firebase
+In most case, you will want a remote firebase project. If you want more flexibility or want to develop without needing an internet connection, you can check [this](#local-firebase-instance) out.
 
-Linux/MacOS:
-~/.microsoft/usersecrets/<user_secrets_id>/secrets.json
+Otherwise, follow these steps to create a new project in the firebase console:
+
+1. Create an authentication method in your firebase console.
+
+    1. Go to **Authentication** page.
+    2. Go to the tab **Sign-in method**.
+
+    ![image](https://user-images.githubusercontent.com/25663435/163913316-19b01f17-baf6-43b8-92de-f4a0a33e672a.png)
+
+    3. Click on **email/password** and click on the checkbox before saving it.
+
+    ![image](https://user-images.githubusercontent.com/25663435/163913346-832dfac0-c139-40be-8f23-c926d2fe1182.png)
+    
+2. Create a new cloud firestore project.
+    1. Go to **Firestore Database** page.
+    2. Click on **Create new database**.
+
+    ![image](https://user-images.githubusercontent.com/25663435/163913389-0de0a538-9a1b-48b8-a3ff-0f711e7591eb.png)
+
+    3. Choose production mode.
+    
+    ![image](https://user-images.githubusercontent.com/25663435/163913410-ff6cdd96-6644-4179-a8ba-e2c2e390e377.png)
+
+    4. Choose the nearest region possible (**us-east1** is a possible good candidate).
+    
+    ![image](https://user-images.githubusercontent.com/25663435/163913418-38c5400d-9811-4d74-8975-ee237c3f48f4.png)
+
+    5. Click on **Create**.
+
+3. Generate your admin sdk token.
+    1. Go to **Project Settings** page.
+    2. Go to **Service Accounts** tab.
+
+    ![image](https://user-images.githubusercontent.com/25663435/163913439-d526335d-9ee6-4e6d-9374-1fd4ef9f487f.png)
+
+    3. Click on **Generate new private key**.
+    
+    ![image](https://user-images.githubusercontent.com/25663435/163913462-f2d2e0b3-1a4c-4905-aa06-f48f96cfba9f.png)
+
+    4. download the key and save it to a file `PortalApi/local/admin-sdk.json`
+
+4. Get the project custom information.
+    1. Go to **Project Settings** page in **Global parameter** tab.
+    2. Save the following fields: `Project id` and `API Web Key`.
+    ![image](https://user-images.githubusercontent.com/25663435/163913859-60a4697d-2194-4ff1-a444-f61953e58976.png)
+
+    4. Create a file `PortalApi/local/firebase-settings.json` with the following content:
+
+    ```json
+    {
+      "FirebaseSettings": {
+        "ProjectId": "/* insert ProjectId value here */",
+        "ApiKey": "/* insert ApiKey value here */"
+      }
+    }
+    ```
+### Local firebase instance
+You can use the firebase emulator to create a local firebase instance. follows [these guidelines](https://firebase.google.com/docs/emulator-suite/install_and_configure) to setup a cloud firestore and a firbase authentication service.
+

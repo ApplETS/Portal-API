@@ -4,6 +4,11 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var config = new ConfigurationBuilder()
+        .SetBasePath(Directory.GetCurrentDirectory())
+        .AddJsonFile(Path.Combine("local", "firebase-settings.json"), optional: false)
+        .Build();
+
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -21,6 +26,7 @@ builder.Services.AddSwaggerGen(options =>
         Description = "JWT Authorization header using the Bearer scheme. " +
         "\r\n\r\n Enter 'Bearer' [space] and then your token in the text input below.",
     });
+
     options.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
          {
@@ -37,7 +43,7 @@ builder.Services.AddSwaggerGen(options =>
      });
 });
 
-builder.Services.AddSettings(builder.Configuration);
+builder.Services.AddSettings(config);
 builder.Services.AddServices();
 
 builder.Host.ConfigureLogging(logging =>
