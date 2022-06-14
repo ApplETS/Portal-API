@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿#pragma warning disable CS8604
+using System.Collections.Generic;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using PortalUnitTest.Mock;
-using WhatsNewApi.Models.Entities;
 using WhatsNewApi.Models.FirestoreModels;
 
 namespace PortalUnitTest.Controller;

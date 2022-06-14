@@ -4,7 +4,7 @@ using WhatsNewApi.Models.FirestoreModels;
 
 namespace PortalUnitTest.Mock
 {
-	public class Constants
+	public static class Constants
 	{
 		// MODELS
 		public static Project validProject = new Project()

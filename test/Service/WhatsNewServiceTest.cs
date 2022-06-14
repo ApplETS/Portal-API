@@ -1,4 +1,5 @@
-﻿using System;
+﻿#pragma warning disable CS8604
+using System;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using PortalUnitTest.Mock;
