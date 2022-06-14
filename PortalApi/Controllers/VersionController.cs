@@ -10,18 +10,30 @@ namespace WhatsNewApi.Controllers;
 [ApiController]
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 [Authorize(Roles = "Administrator")]
-[AllowAnonymous]
-[Route("api/projects/{projectId}/whatsnew")]
-public class WhatsNewController : ControllerBase
+[Route("api/projects/{projectId}/versions")]
+public class VersionController : ControllerBase
 {
     private readonly IWhatsNewService _whatsnewService;
 
-    public WhatsNewController(IWhatsNewService whatsnewService)
+    public VersionController(IWhatsNewService whatsnewService)
     {
         _whatsnewService = whatsnewService;
     }
 
-    [AllowAnonymous]
+    [HttpGet("inrange")]
+    public async Task<IActionResult> GetWhatsNewInRangeFromTo(string projectId, string from, string to)
+    {
+        try
+        {
+            var whatsNew = await _whatsnewService.GetWhatsNewsInRange(projectId, from, to);
+            return Ok(whatsNew);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
     [HttpGet("{version}")]
     public async Task<IActionResult> GetWhatsNewByVersion(string projectId, string version)
     {

@@ -1,7 +1,7 @@
 ﻿using Google.Cloud.Firestore;
+using Google.Cloud.Firestore.V1;
 using WhatsNewApi.Extensions;
 using WhatsNewApi.Models.Exceptions;
-using WhatsNewApi.Models.FirestoreModels;
 using WhatsNewApi.Models.Options;
 using WhatsNewApi.Repos.Abstractions;
 
@@ -14,9 +14,12 @@ public class FirestoreRepository<T> : IFirestoreRepository<T>
 
     public FirestoreRepository(ILogger<FirestoreRepository<T>> logger, IFirebaseSettings settings)
 	{
-		_db = FirestoreDb.Create(settings.ProjectId);
+        var builder = new FirestoreClientBuilder
+        {
+            CredentialsPath = Path.Combine("local", "adminsdk.json")
+        };
+        _db = FirestoreDb.Create(settings.ProjectId, builder.Build());
         _projectCollection = _db.Collection($"{typeof(T).Name}s");
-        var test = $"{typeof(T).Name}s";
         _logger = logger;
     }
 

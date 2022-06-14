@@ -8,6 +8,7 @@
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'WhatsNewApi' " />
   <ItemGroup>
     <Compile Remove="Models\Enums\**" />
     <Content Remove="Models\Enums\**" />
@@ -17,6 +18,7 @@
     <None Remove="Models\DbModel\" />
     <None Remove="Repos\" />
     <None Remove="Repos\Abstractions\" />
+    <None Remove="Semver" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,6 +28,7 @@
 	  <PackageReference Include="FirebaseAuthentication.net" Version="3.7.2" />
 	  <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.4" />
 	  <PackageReference Include="Google.Cloud.Firestore" Version="2.5.0" />
+	  <PackageReference Include="Semver" Version="2.1.0" />
   </ItemGroup>
 
   <ItemGroup>
