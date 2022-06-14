@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WhatsNewApi.Models.Entities;
 
-namespace WhatsNewUnitTest.Controller;
+namespace PortalUnitTest.Controller;
 
 public class AuthControllerTest
 {
