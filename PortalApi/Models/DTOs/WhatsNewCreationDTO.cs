@@ -1,5 +1,5 @@
-﻿
 namespace WhatsNewApi.Models.DTOs;
+
 public class WhatsNewCreationDTO
 {
 	public string? Version { get; set; }

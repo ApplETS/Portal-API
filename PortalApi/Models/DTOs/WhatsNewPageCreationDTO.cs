@@ -1,4 +1,5 @@
 ﻿namespace WhatsNewApi.Models.DTOs;
+
 public class WhatsNewPageCreationDTO
 {
     public string? Title { get; set; }

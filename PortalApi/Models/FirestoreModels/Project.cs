@@ -1,6 +1,7 @@
 ﻿using Google.Cloud.Firestore;
 
 namespace WhatsNewApi.Models.FirestoreModels;
+
 [FirestoreData]
 public class Project
 {

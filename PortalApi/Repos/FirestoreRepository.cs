@@ -6,6 +6,7 @@ using WhatsNewApi.Models.Options;
 using WhatsNewApi.Repos.Abstractions;
 
 namespace WhatsNewApi.Repos;
+
 public class FirestoreRepository<T> : IFirestoreRepository<T>
 {
     private readonly ILogger<FirestoreRepository<T>> _logger;
@@ -13,7 +14,7 @@ public class FirestoreRepository<T> : IFirestoreRepository<T>
     private readonly CollectionReference _projectCollection;
 
     public FirestoreRepository(ILogger<FirestoreRepository<T>> logger, IFirebaseSettings settings)
-	{
+    {
         var builder = new FirestoreClientBuilder
         {
             CredentialsPath = Path.Combine("local", "adminsdk.json")
@@ -28,7 +29,7 @@ public class FirestoreRepository<T> : IFirestoreRepository<T>
         await _projectCollection.AddAsync(project);
     }
 
-	public async Task Delete(string id)
+    public async Task Delete(string id)
     {
         try
         {
