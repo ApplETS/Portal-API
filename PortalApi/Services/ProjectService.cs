@@ -5,6 +5,7 @@ using WhatsNewApi.Repos.Abstractions;
 using WhatsNewApi.Services.Abstractions;
 
 namespace WhatsNewApi.Services;
+
 public class ProjectService : IProjectService
 {
     private readonly ILogger<ProjectService> _logger;
