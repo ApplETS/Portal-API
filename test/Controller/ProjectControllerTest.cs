@@ -56,14 +56,14 @@ public class ProjectControllerTest
     {
         // Arrange
         _projectServiceMock.Setup(service => service.GetProjects())
-            .Returns(() => Task.FromResult(Constants.projectList));
+            .Returns(() => Task.FromResult(Constants.validProjectsList));
 
         // Act
         var actionResult = await _controller.GetAllProjects();
         var projects = ((OkObjectResult)actionResult).Value as IEnumerable<Project>;
 
         // Assert
-        Constants.projectList.Should().BeSameAs(projects);
+        Constants.validProjectsList.Should().BeSameAs(projects);
     }
     
     [Fact(DisplayName = "GetAllProject for invalid firebase return, should return bad request (400) with exception message.")]

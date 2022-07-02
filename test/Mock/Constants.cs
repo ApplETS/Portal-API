@@ -1,90 +1,81 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using WhatsNewApi.Models.FirestoreModels;
 
-namespace PortalUnitTest.Mock
+namespace PortalUnitTest.Mock;
+public static class Constants
 {
-	public static class Constants
+	// MODELS
+	public static Project validProject = new Project()
+    {
+		Id = "1",
+		CurrentVersion = "3.0.0",
+		Name = "ETSMobile"
+    };
+
+    public static IEnumerable<Project> validProjectsList = new Project[]
+    {
+        validProject,
+        validProject
+    };
+
+	public static WhatsNewPage validWhatsNewPage = new WhatsNewPage()
 	{
-		// MODELS
-		public static Project validProject1 = new Project()
-        {
-			Id = "1",
-			CurrentVersion = "3.0.0",
-			Name = "ETSMobile"
-        };
-        
-		public static Project validProject2 = new Project()
-		{
-			Id = "2",
-			CurrentVersion = "3.1.0",
-			Name = "ETSMap"
-		};
+		Title = "valid title",
+		Description = "valid desc",
+		Color = "#FFFFFF",
+		MediaUrl = "https://img.com/validurl"
 
-		public static IEnumerable<Project> projectList = new Project[]
-		{
-			validProject1, validProject2
-		};
+	};
 
-		public static WhatsNewPage validWhatsNewPage = new WhatsNewPage()
+	public static WhatsNew validWhatsNew = new WhatsNew()
+	{
+		Id = "1",
+		ProjectId = "1",
+		Version = "3.0.1",
+		Pages = new List<WhatsNewPage>
 		{
-			Title = "valid title",
-			Description = "valid desc",
-			Color = "#FFFFFF",
-			MediaUrl = "https://img.com/validurl"
+            validWhatsNewPage
+		}
+	};
 
-		};
-
-		public static WhatsNew validWhatsNew = new WhatsNew()
+	public static WhatsNew validWhatsNew2 = new WhatsNew()
+	{
+		Id = "1",
+		ProjectId = "1",
+		Version = "3.0.5",
+		Pages = new List<WhatsNewPage>
 		{
-			Id = "1",
-			ProjectId = "1",
-			Version = "3.0.1",
-			Pages = new List<WhatsNewPage>
+			validWhatsNewPage
+		}
+	};
+
+	public static IEnumerable<WhatsNew> validWhatsNewList = new WhatsNew[]
+	{
+		validWhatsNew,
+		validWhatsNew2
+	};
+
+	//DTOS
+	public static WhatsNewCreationDTO validDto1 = new WhatsNewCreationDTO()
+	{
+		Version = "3.0.1",
+		Pages = new WhatsNewPageCreationDTO[]
+		{
+			new WhatsNewPageCreationDTO()
+            {
+				Title = "title1",
+				Description = "desc1",
+				Color = "#FFFFFF",
+				MediaUrl = "https://img.com/test"
+            },
+			new WhatsNewPageCreationDTO()
 			{
-                validWhatsNewPage
+				Title = "title2",
+				Description = "desc2",
+				Color = "#FFFFFF",
+				MediaUrl = "https://img.com/test"
 			}
-		};
-
-		public static WhatsNew validWhatsNew2 = new WhatsNew()
-		{
-			Id = "1",
-			ProjectId = "1",
-			Version = "3.0.5",
-			Pages = new List<WhatsNewPage>
-			{
-				validWhatsNewPage
-			}
-		};
-
-		public static IEnumerable<WhatsNew> validWhatsNewList = new WhatsNew[]
-		{
-			validWhatsNew,
-			validWhatsNew2
-		};
-
-		//DTOS
-		public static WhatsNewCreationDTO validDto1 = new WhatsNewCreationDTO()
-		{
-			Version = "3.0.1",
-			Pages = new WhatsNewPageCreationDTO[]
-			{
-				new WhatsNewPageCreationDTO()
-                {
-					Title = "title1",
-					Description = "desc1",
-					Color = "#FFFFFF",
-					MediaUrl = "https://img.com/test"
-                },
-				new WhatsNewPageCreationDTO()
-				{
-					Title = "title2",
-					Description = "desc2",
-					Color = "#FFFFFF",
-					MediaUrl = "https://img.com/test"
-				}
-			}
-		};
-	}
+		}
+	};
 }
-
