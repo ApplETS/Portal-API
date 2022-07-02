@@ -7,12 +7,24 @@ namespace PortalUnitTest.Mock
 	public static class Constants
 	{
 		// MODELS
-		public static Project validProject = new Project()
+		public static Project validProject1 = new Project()
         {
 			Id = "1",
 			CurrentVersion = "3.0.0",
 			Name = "ETSMobile"
         };
+        
+		public static Project validProject2 = new Project()
+		{
+			Id = "2",
+			CurrentVersion = "3.1.0",
+			Name = "ETSMap"
+		};
+
+		public static IEnumerable<Project> projectList = new Project[]
+		{
+			validProject1, validProject2
+		};
 
 		public static WhatsNewPage validWhatsNewPage = new WhatsNewPage()
 		{

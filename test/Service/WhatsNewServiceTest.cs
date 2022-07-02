@@ -30,7 +30,7 @@ public class WhatsNewServiceTest
         _repoMock.Setup(repo => repo.GetAll()).Returns(Task.FromResult(Constants.validWhatsNewList));
 
         // Act
-        var whatsNews = await _service.GetWhatsNewsInRange(Constants.validProject.Id, "3.0.0", "3.0.4");
+        var whatsNews = await _service.GetWhatsNewsInRange(Constants.validProject1.Id, "3.0.0", "3.0.4");
         // validWhatsNew2 as version 3.0.5, it shouldn't be in range
 
         // Assert
@@ -45,7 +45,7 @@ public class WhatsNewServiceTest
         _repoMock.Setup(repo => repo.GetAll()).Returns(Task.FromResult(Constants.validWhatsNewList));
 
         // Act
-        var whatsNew = await _service.GetWhatsNew(Constants.validProject.Id, Constants.validWhatsNew.Version);
+        var whatsNew = await _service.GetWhatsNew(Constants.validProject1.Id, Constants.validWhatsNew.Version);
 
         // Assert
         whatsNew.Should().Be(Constants.validWhatsNew);
@@ -60,7 +60,7 @@ public class WhatsNewServiceTest
         // Act
         Func<Task> action = async () =>
         {
-            var whatsNew = await _service.GetWhatsNew(Constants.validProject.Id, Constants.validWhatsNew.Id);
+            var whatsNew = await _service.GetWhatsNew(Constants.validProject1.Id, Constants.validWhatsNew.Id);
         };
 
         // Assert

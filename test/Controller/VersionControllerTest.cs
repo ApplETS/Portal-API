@@ -27,12 +27,12 @@ public class VersionControllerTest
             Constants.validWhatsNew, Constants.validWhatsNew2
         };
         _whatsNewServiceMock.Setup(service => service
-            .GetWhatsNewsInRange(Constants.validProject.Id, Constants.validWhatsNew.Id, Constants.validWhatsNew2.Id))
+            .GetWhatsNewsInRange(Constants.validProject1.Id, Constants.validWhatsNew.Id, Constants.validWhatsNew2.Id))
             .Returns(Task.FromResult(whatsNewsToReturn));
 
         // Act
         var actionResult = await _controller
-            .GetWhatsNewInRangeFromTo(Constants.validProject.Id, Constants.validWhatsNew.Id, Constants.validWhatsNew2.Id);
+            .GetWhatsNewInRangeFromTo(Constants.validProject1.Id, Constants.validWhatsNew.Id, Constants.validWhatsNew2.Id);
         var whatsNews = ((OkObjectResult)actionResult).Value as IEnumerable<WhatsNew>;
 
         // Assert
@@ -49,7 +49,7 @@ public class VersionControllerTest
 
         // Act
         var actionResult = await _controller
-            .GetWhatsNewByVersion(Constants.validProject.Id, Constants.validWhatsNew.Version);
+            .GetWhatsNewByVersion(Constants.validProject1.Id, Constants.validWhatsNew.Version);
         var whatsNew = ((OkObjectResult)actionResult).Value as WhatsNew;
 
         // Assert
