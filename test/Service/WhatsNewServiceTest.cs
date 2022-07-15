@@ -29,15 +29,15 @@ public class WhatsNewServiceTest
     public async Task GetWhatsNewsInRange_ShouldReturnWhatsNewForCorrectRange()
     {
         // Arrange
-        _repoMock.Setup(repo => repo.GetAll()).Returns(Task.FromResult(Constants.validWhatsNewList));
+        _repoMock.Setup(repo => repo.GetAll()).Returns(Task.FromResult(Constants.ValidWhatsNewList));
 
         // Act
-        var whatsNews = await _service.GetWhatsNewsInRange(Constants.validProject1.Id, "3.0.0", "3.0.4");
-        // validWhatsNew2 as version 3.0.5, it shouldn't be in range
+        var whatsNews = await _service.GetWhatsNewsInRange(Constants.ValidProject.Id, "3.0.0", "3.0.4");
+        // ValidWhatsNew2 as version 3.0.5, it shouldn't be in range
 
         // Assert
-        whatsNews.Should().Contain(Constants.validWhatsNew);
-        whatsNews.Should().NotContain(Constants.validWhatsNew2);
+        whatsNews.Should().Contain(Constants.ValidWhatsNew);
+        whatsNews.Should().NotContain(Constants.ValidWhatsNew2);
     }
 
     [Fact]
@@ -49,7 +49,7 @@ public class WhatsNewServiceTest
         // Act
         Func<Task> action = async () =>
         {
-            await _service.GetWhatsNewsInRange(Constants.validProject.Id, "3.0.0", "3.0.4");
+            await _service.GetWhatsNewsInRange(Constants.ValidProject.Id, "3.0.0", "3.0.4");
         };
 
         // Assert
@@ -66,7 +66,7 @@ public class WhatsNewServiceTest
         // Act
         Func<Task> action = async () =>
         {
-            await _service.GetWhatsNewsInRange(Constants.validProject.Id, "3.0.0", "3.0.4");
+            await _service.GetWhatsNewsInRange(Constants.ValidProject.Id, "3.0.0", "3.0.4");
         };
 
         // Assert
@@ -77,25 +77,25 @@ public class WhatsNewServiceTest
     public async Task GetWhatsNew_ShouldReturnCorrectVersionAccordingToProject()
     {
         // Arrange
-        _repoMock.Setup(repo => repo.GetAll()).Returns(Task.FromResult(Constants.validWhatsNewList));
+        _repoMock.Setup(repo => repo.GetAll()).Returns(Task.FromResult(Constants.ValidWhatsNewList));
 
         // Act
-        var whatsNew = await _service.GetWhatsNew(Constants.validProject1.Id, Constants.validWhatsNew.Version);
+        var whatsNew = await _service.GetWhatsNew(Constants.ValidProject.Id, Constants.ValidWhatsNew.Version);
 
         // Assert
-        whatsNew.Should().Be(Constants.validWhatsNew);
+        whatsNew.Should().Be(Constants.ValidWhatsNew);
     }
 
     [Fact]
     public async Task GetWhatsNew_ShouldThrowArgumentExceptionForInvalidVersion()
     {
         // Arrange
-        _repoMock.Setup(repo => repo.GetAll()).Returns(Task.FromResult(Constants.validWhatsNewList));
+        _repoMock.Setup(repo => repo.GetAll()).Returns(Task.FromResult(Constants.ValidWhatsNewList));
 
         // Act
         Func<Task> action = async () =>
         {
-            var whatsNew = await _service.GetWhatsNew(Constants.validProject1.Id, Constants.validWhatsNew.Id);
+            var whatsNew = await _service.GetWhatsNew(Constants.ValidProject.Id, Constants.ValidWhatsNew.Id);
         };
 
         // Assert
@@ -112,7 +112,7 @@ public class WhatsNewServiceTest
         // Act
         Func<Task> action = async () =>
         {
-            var whatsNew = await _service.GetAllWhatsNews(Constants.validProject.Id);
+            var whatsNew = await _service.GetAllWhatsNews(Constants.ValidProject.Id);
         };
 
         // Assert
@@ -123,13 +123,13 @@ public class WhatsNewServiceTest
     public async Task GetAllWhatsNews_ShouldReturnForValidProjectId()
     {
         // Arrange
-        _repoMock.Setup(repo => repo.GetAll()).Returns(Task.FromResult(Constants.validWhatsNewList));
+        _repoMock.Setup(repo => repo.GetAll()).Returns(Task.FromResult(Constants.ValidWhatsNewList));
 
         // Act
-        var whatsNew = await _service.GetAllWhatsNews(Constants.validProject.Id);
+        var whatsNew = await _service.GetAllWhatsNews(Constants.ValidProject.Id);
 
         // Assert
-        whatsNew.Should().BeEquivalentTo(Constants.validWhatsNewList);
+        whatsNew.Should().BeEquivalentTo(Constants.ValidWhatsNewList);
     }
 
     [Fact]
@@ -141,7 +141,7 @@ public class WhatsNewServiceTest
         // Act
         Func<Task> action = async () =>
         {
-            await _service.CreateWhatsNew(Constants.validProject.Id, Constants.validWhatsNew.Version, new WhatsNewPage[] { Constants.validWhatsNewPage });
+            await _service.CreateWhatsNew(Constants.ValidProject.Id, Constants.ValidWhatsNew.Version, new WhatsNewPage[] { Constants.ValidWhatsNewPage });
         };
 
         // Assert
@@ -154,7 +154,7 @@ public class WhatsNewServiceTest
         // Arrange
 
         // Act
-        await _service.CreateWhatsNew(Constants.validProject.Id, Constants.validWhatsNew.Version, new WhatsNewPage[] { Constants.validWhatsNewPage });
+        await _service.CreateWhatsNew(Constants.ValidProject.Id, Constants.ValidWhatsNew.Version, new WhatsNewPage[] { Constants.ValidWhatsNewPage });
 
         // Assert
         _repoMock.Verify(mock => mock.Create(It.IsAny<WhatsNew>()), Times.Once);
@@ -166,7 +166,7 @@ public class WhatsNewServiceTest
         // Arrange
 
         // Act
-        await _service.UpdateWhatsNew(Constants.validWhatsNew.Id, Constants.validWhatsNew);
+        await _service.UpdateWhatsNew(Constants.ValidWhatsNew.Id, Constants.ValidWhatsNew);
 
         // Assert
         _repoMock.Verify(mock => mock.Update(It.IsAny<string>(), It.IsAny<WhatsNew>()), Times.Once);
@@ -181,7 +181,7 @@ public class WhatsNewServiceTest
         // Act
         Func<Task> action = async () =>
         {
-            await _service.UpdateWhatsNew(Constants.validWhatsNew.Id, Constants.validWhatsNew);
+            await _service.UpdateWhatsNew(Constants.ValidWhatsNew.Id, Constants.ValidWhatsNew);
         };
 
         // Assert
@@ -194,7 +194,7 @@ public class WhatsNewServiceTest
         // Arrange
 
         // Act
-        await _service.DeleteWhatsNew(Constants.validWhatsNew.Id);
+        await _service.DeleteWhatsNew(Constants.ValidWhatsNew.Id);
 
         // Assert
         _repoMock.Verify(mock => mock.Delete(It.IsAny<string>()), Times.Once);
@@ -209,7 +209,7 @@ public class WhatsNewServiceTest
         // Act
         Func<Task> action = async () =>
         {
-            await _service.DeleteWhatsNew(Constants.validWhatsNew.Id);
+            await _service.DeleteWhatsNew(Constants.ValidWhatsNew.Id);
         };
 
         // Assert

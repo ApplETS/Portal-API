@@ -35,7 +35,7 @@ public class ProjectServiceTest
         // Act
         Func<Task> action = async () =>
         {
-            await _service.CreateProject(Constants.validProject.Name, Constants.validProject.CurrentVersion);
+            await _service.CreateProject(Constants.ValidProject.Name, Constants.ValidProject.CurrentVersion);
         };
 
         // Assert
@@ -46,11 +46,11 @@ public class ProjectServiceTest
     public async Task CreateProject_ShouldCallRepoCreate()
     {
         _repoMock.Setup(repo => repo.Create(It.IsAny<Project>()))
-            .Returns(Task.FromResult(Constants.validProject));
+            .Returns(Task.FromResult(Constants.ValidProject));
 
         // Act
         
-        await _service.CreateProject(Constants.validProject.Name, Constants.validProject.CurrentVersion);
+        await _service.CreateProject(Constants.ValidProject.Name, Constants.ValidProject.CurrentVersion);
 
         // Assert
         _repoMock.Verify(mock => mock.Create(It.IsAny<Project>()), Times.Once);
@@ -61,14 +61,14 @@ public class ProjectServiceTest
     {
         // Arrange
         _repoMock.Setup(repo => repo.Get(It.IsAny<string>()))
-            .Returns(Task.FromResult(Constants.validProject));
+            .Returns(Task.FromResult(Constants.ValidProject));
         _repoMock.Setup(repo => repo.Update(It.IsAny<string>(), It.IsAny<Project>()))
             .Throws(new FirebaseException("Invalid project id"));
 
         // Act
         Func<Task> action = async () =>
         {
-            await _service.UpdateVersion(Constants.validProject.Id, Constants.validProject.CurrentVersion);
+            await _service.UpdateVersion(Constants.ValidProject.Id, Constants.ValidProject.CurrentVersion);
         };
 
         // Assert
@@ -80,10 +80,10 @@ public class ProjectServiceTest
     {
         // Arrange
         _repoMock.Setup(repo => repo.Get(It.IsAny<string>()))
-            .Returns(Task.FromResult(Constants.validProject));
+            .Returns(Task.FromResult(Constants.ValidProject));
 
         // Act
-        await _service.UpdateVersion(Constants.validProject.Id, Constants.validProject.CurrentVersion);
+        await _service.UpdateVersion(Constants.ValidProject.Id, Constants.ValidProject.CurrentVersion);
 
         // Assert
         _repoMock.Verify(mock => mock.Update(It.IsAny<string>(), It.IsAny<Project>()), Times.Once);
@@ -99,7 +99,7 @@ public class ProjectServiceTest
         // Act
         Func<Task> action = async () =>
         {
-            await _service.GetProject(Constants.validProject.Id);
+            await _service.GetProject(Constants.ValidProject.Id);
         };
 
         // Assert
@@ -111,13 +111,13 @@ public class ProjectServiceTest
     {
         // Arrange
         _repoMock.Setup(repo => repo.Get(It.IsAny<string>()))
-            .Returns(Task.FromResult(Constants.validProject));
+            .Returns(Task.FromResult(Constants.ValidProject));
 
         // Act
-        var project = await _service.GetProject(Constants.validProject.Id);
+        var project = await _service.GetProject(Constants.ValidProject.Id);
 
         // Assert
-        project.Should().BeEquivalentTo(Constants.validProject);
+        project.Should().BeEquivalentTo(Constants.ValidProject);
     }
 
     [Fact]
@@ -142,13 +142,13 @@ public class ProjectServiceTest
     {
         // Arrange
         _repoMock.Setup(repo => repo.GetAll())
-            .Returns(Task.FromResult(Constants.validProjectsList));
+            .Returns(Task.FromResult(Constants.ValidProjectsList));
 
         // Act
         var projects = await _service.GetProjects();
 
         // Assert
-        projects.Should().BeEquivalentTo(Constants.validProjectsList);
+        projects.Should().BeEquivalentTo(Constants.ValidProjectsList);
     }
 
     [Fact]
@@ -161,7 +161,7 @@ public class ProjectServiceTest
         // Act
         Func<Task> action = async () =>
         {
-            await _service.DeleteProject(Constants.validProject.Id);
+            await _service.DeleteProject(Constants.ValidProject.Id);
         };
 
         // Assert
@@ -173,10 +173,10 @@ public class ProjectServiceTest
     {
         // Arrange
         _repoMock.Setup(repo => repo.Delete(It.IsAny<string>()))
-            .Returns(Task.FromResult(Constants.validProject));
+            .Returns(Task.FromResult(Constants.ValidProject));
 
         // Act
-        await _service.DeleteProject(Constants.validProject.Id);
+        await _service.DeleteProject(Constants.ValidProject.Id);
 
         // Assert
         _repoMock.Verify(mock => mock.Delete(It.IsAny<string>()), Times.Once);

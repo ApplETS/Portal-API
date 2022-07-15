@@ -69,13 +69,14 @@ public class VersionController : ControllerBase
         {
             if(!string.IsNullOrEmpty(dto.Version) && dto.Pages != null && dto.Pages.Any())
             {
-                await _whatsnewService.CreateWhatsNew(projectId, dto.Version, dto.Pages.Select(page => new WhatsNewPage
+                var pages = dto.Pages.Select(page => new WhatsNewPage
                 {
                     Title = page.Title,
                     Description = page.Description,
                     MediaUrl = page.MediaUrl,
                     Color = page.Color
-                }));
+                });
+                await _whatsnewService.CreateWhatsNew(projectId, dto.Version, pages);
                 return Ok();
             }
 
