@@ -54,13 +54,13 @@ builder.Host.ConfigureLogging(logging =>
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
-    options.Authority = $"https://securetoken.google.com/{builder.Configuration["FirebaseSettings:ProjectId"]}";
+    options.Authority = $"https://securetoken.google.com/{config["FirebaseSettings:ProjectId"]}";
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
-        ValidIssuer = $"https://securetoken.google.com/{builder.Configuration["FirebaseSettings:ProjectId"]}",
+        ValidIssuer = $"https://securetoken.google.com/{config["FirebaseSettings:ProjectId"]}",
         ValidateAudience = true,
-        ValidAudience = $"{builder.Configuration["FirebaseSettings:ProjectId"]}",
+        ValidAudience = $"{config["FirebaseSettings:ProjectId"]}",
         ValidateLifetime = true
     };
 });
