@@ -49,7 +49,7 @@ namespace WhatsNewApi.Services
                     var whatsNewsInRange = whatsNews.Where(wn =>
                     {
                         var semVer = SemVersion.Parse(wn.Version, SemVersionStyles.Any);
-                        return semVer > semFrom && semVer < semTo;
+                        return semVer.ComparePrecedenceTo(semFrom) >= 0 && semVer.ComparePrecedenceTo(semTo) <= 0;
                     });
 
                     return whatsNewsInRange;

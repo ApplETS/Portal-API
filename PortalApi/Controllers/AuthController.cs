@@ -30,6 +30,7 @@ public class AuthController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Login([FromBody] UserLoginCrendentialsDTO userCrendentials)
     {
+        var test = HttpContext;
         try
         {
             if (!string.IsNullOrEmpty(userCrendentials.Email) && !string.IsNullOrEmpty(userCrendentials.Password))

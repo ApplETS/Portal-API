@@ -9,7 +9,6 @@ namespace WhatsNewApi.Controllers;
 [ApiController]
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 [Route("api/project")]
-[AllowAnonymous]
 [Authorize(Roles = "Administrator")]
 public class ProjectController : ControllerBase
 {
