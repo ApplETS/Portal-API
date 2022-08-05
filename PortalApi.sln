@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31919.166
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PortalApi", "PortalApi\PortalApi.csproj", "{F036282F-DD49-4C78-A27C-0FEB5CA180F0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PortalUnitTest", "test\PortalUnitTest.csproj", "{0EF10D6B-E565-481C-A513-7C92D259D6E1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B5B4E3B8-84BD-4674-8E03-CADA1CFF9893}"
+	ProjectSection(SolutionItems) = preProject
+		Dockerfile = Dockerfile
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F036282F-DD49-4C78-A27C-0FEB5CA180F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F036282F-DD49-4C78-A27C-0FEB5CA180F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F036282F-DD49-4C78-A27C-0FEB5CA180F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F036282F-DD49-4C78-A27C-0FEB5CA180F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EF10D6B-E565-481C-A513-7C92D259D6E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EF10D6B-E565-481C-A513-7C92D259D6E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EF10D6B-E565-481C-A513-7C92D259D6E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EF10D6B-E565-481C-A513-7C92D259D6E1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DDC39418-53F2-4D18-BC2B-AEBC34EAE732}
+	EndGlobalSection
+EndGlobal
