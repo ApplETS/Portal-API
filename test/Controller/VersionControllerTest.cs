@@ -148,7 +148,7 @@ public class VersionControllerTest
 
         // Act
         var actionResult = await _controller.CreateWhatsNew(Constants.ValidProject.Id, Constants.InvalidWhatsNewDto1);
-        var response = (BadRequestResult)actionResult;
+        var response = (BadRequestObjectResult)actionResult;
 
         // Assert
         response.StatusCode.Should().Be(400);
@@ -171,6 +171,17 @@ public class VersionControllerTest
         var resMessage = response.Value as string;
         resMessage.Should().BeSameAs(exceptionMessage);
     }
+    
+    [Fact]
+    public async Task CreateWhatsNew_ForInvalidVersion_ShouldReturnBadRequetWithExceptionMessage()
+    {
+        // Act
+        var actionResult = await _controller.CreateWhatsNew(Constants.ValidProject.Id, Constants.InvalidWhatsNewDto1);
+        var response = (BadRequestObjectResult)actionResult;
+
+        // Assert
+        response.StatusCode.Should().Be(400);
+    }
 
     [Fact]
     public async Task UpdateWhatsNew_ForValidDto_ShouldCorrectlyCallService()
@@ -191,7 +202,7 @@ public class VersionControllerTest
 
         // Act
         var actionResult = await _controller.UpdateWhatsNew(Constants.ValidProject.Id, Constants.ValidWhatsNew.Id, Constants.InvalidWhatsNewDto1);
-        var response = (BadRequestResult)actionResult;
+        var response = (BadRequestObjectResult)actionResult;
 
         // Assert
         response.StatusCode.Should().Be(400);
@@ -213,6 +224,17 @@ public class VersionControllerTest
         response.StatusCode.Should().Be(400);
         var resMessage = response.Value as string;
         resMessage.Should().BeSameAs(exceptionMessage);
+    }
+
+    [Fact]
+    public async Task UpdateWhatsNew_ForInvalidVersion_ShouldReturnBadRequetWithExceptionMessage()
+    {
+        // Act
+        var actionResult = await _controller.UpdateWhatsNew(Constants.ValidProject.Id, Constants.ValidWhatsNew.Id, Constants.InvalidWhatsNewDto1);
+        var response = (BadRequestObjectResult)actionResult;
+
+        // Assert
+        response.StatusCode.Should().Be(400);
     }
 
     [Fact]

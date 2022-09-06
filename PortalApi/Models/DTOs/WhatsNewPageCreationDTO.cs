@@ -1,9 +1,11 @@
-﻿namespace WhatsNewApi.Models.DTOs;
+﻿using PortalApi.Models.FirestoreModels;
+
+namespace WhatsNewApi.Models.DTOs;
 
 public class WhatsNewPageCreationDTO
 {
-    public string? Title { get; set; }
-    public string? Description { get; set; }
+    public InternationalizedText? Title { get; set; }
+    public InternationalizedText? Description { get; set; }
     public string? MediaUrl { get; set; }
     public string? Color { get; set; }
 }

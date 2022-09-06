@@ -1,4 +1,5 @@
 ﻿using Google.Cloud.Firestore;
+using PortalApi.Models.FirestoreModels;
 
 namespace WhatsNewApi.Models.FirestoreModels;
 
@@ -6,9 +7,9 @@ namespace WhatsNewApi.Models.FirestoreModels;
 public class WhatsNewPage
 {
     [FirestoreProperty]
-    public string? Title { get; set; }
+    public InternationalizedText? Title { get; set; }
     [FirestoreProperty]
-    public string? Description { get; set; }
+    public InternationalizedText? Description { get; set; }
     [FirestoreProperty]
     public string? MediaUrl { get; set; }
     // Color as hexadecimal value
