@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Semver;
 using WhatsNewApi.Models.DTOs;
 using WhatsNewApi.Models.FirestoreModels;
 using WhatsNewApi.Services.Abstractions;
@@ -67,6 +68,7 @@ public class VersionController : ControllerBase
     {
         try
         {
+            CheckForValidVersion(dto.Version);
             if(!string.IsNullOrEmpty(dto.Version) && dto.Pages != null && dto.Pages.Any())
             {
                 var pages = dto.Pages.Select(page => new WhatsNewPage
@@ -88,11 +90,17 @@ public class VersionController : ControllerBase
         }
     }
 
+    private void CheckForValidVersion(string? version)
+    {
+        SemVersion.Parse(version, SemVersionStyles.Any);
+    }
+
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateWhatsNew(string projectId, string id, [FromBody] WhatsNewCreationDTO dto)
     {
         try
         {
+            CheckForValidVersion(dto.Version);
             if (!string.IsNullOrEmpty(dto.Version) && dto.Pages != null && dto.Pages.Any())
             {
                 var pages = dto.Pages.Select(page => new WhatsNewPage

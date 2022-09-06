@@ -1,3 +1,4 @@
+using PortalApi.Models.FirestoreModels;
 using System;
 using System.Collections.Generic;
 using WhatsNewApi.Models.FirestoreModels;
@@ -21,8 +22,8 @@ public static class Constants
 
     public static WhatsNewPage ValidWhatsNewPage = new WhatsNewPage()
     {
-        Title = "valid title",
-        Description = "valid desc",
+        Title = new InternationalizedText { En = "valid title", Fr = "titre valide" },
+        Description = new InternationalizedText { En = "valid description", Fr = "description valide" },
         Color = "#FFFFFF",
         MediaUrl = "https://img.com/validurl"
 
@@ -64,15 +65,16 @@ public static class Constants
         {
             new WhatsNewPageCreationDTO()
             {
-                Title = "title1",
-                Description = "desc1",
+                Title = new InternationalizedText { En = "valid title", Fr = "titre valide" },
+                Description = new InternationalizedText { En = "valid description", Fr = "description valide" },
                 Color = "#FFFFFF",
                 MediaUrl = "https://img.com/test"
             },
             new WhatsNewPageCreationDTO()
             {
-                Title = "title2",
-                Description = "desc2",
+
+                Title = new InternationalizedText { En = "valid title", Fr = "titre valide" },
+                Description = new InternationalizedText { En = "valid description", Fr = "description valide" },
                 Color = "#FFFFFF",
                 MediaUrl = "https://img.com/test"
             }
@@ -81,13 +83,13 @@ public static class Constants
 
     public static WhatsNewCreationDTO InvalidWhatsNewDto1 = new WhatsNewCreationDTO()
     {
-        Version = "",
+        Version = "invalid",
         Pages = new WhatsNewPageCreationDTO[]
         {
             new WhatsNewPageCreationDTO()
             {
-                Title = "title2",
-                Description = "desc2",
+                Title = new InternationalizedText { En = "valid title", Fr = "titre valide" },
+                Description = new InternationalizedText { En = "valid description", Fr = "description valide" },
                 Color = "#FFFFFF",
                 MediaUrl = "https://img.com/test"
             }
