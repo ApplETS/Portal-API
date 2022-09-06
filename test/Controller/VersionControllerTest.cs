@@ -148,7 +148,7 @@ public class VersionControllerTest
 
         // Act
         var actionResult = await _controller.CreateWhatsNew(Constants.ValidProject.Id, Constants.InvalidWhatsNewDto1);
-        var response = (BadRequestResult)actionResult;
+        var response = (BadRequestObjectResult)actionResult;
 
         // Assert
         response.StatusCode.Should().Be(400);
@@ -202,7 +202,7 @@ public class VersionControllerTest
 
         // Act
         var actionResult = await _controller.UpdateWhatsNew(Constants.ValidProject.Id, Constants.ValidWhatsNew.Id, Constants.InvalidWhatsNewDto1);
-        var response = (BadRequestResult)actionResult;
+        var response = (BadRequestObjectResult)actionResult;
 
         // Assert
         response.StatusCode.Should().Be(400);
